@@ -51,14 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: new Column(
         children: <Widget>[
-          //TODO:(2.2) Bring in your SpringySlider
           Expanded(
-            child:Container(),
-//            child: SpringySlider(
-//              markCount: 12,
-//              negativeColor: Theme.of(context).scaffoldBackgroundColor,
-//              positiveColor: Theme.of(context).primaryColor,
-//            ),
+            child: SpringySlider(
+              markCount: 12,
+              negativeColor: Theme.of(context).scaffoldBackgroundColor,
+              positiveColor: Theme.of(context).primaryColor,
+            ),
           ),
           Container(
             height: 50.0,

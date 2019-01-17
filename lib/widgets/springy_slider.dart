@@ -19,84 +19,111 @@ class SpringySlider extends StatefulWidget {
   _SpringySliderState createState() => _SpringySliderState();
 }
 
-//TODO:(3.1) We are gonna use a LayoutBuilder to set the Text
+//TODO:(4.3) Use the Gesture Detector now, Wrap the Stack
 
 class _SpringySliderState extends State<SpringySlider> {
   final paddingTop = 50.0;
   final paddingBottom = 50.0;
-  final slidePercent = 0.75;
+
+  double sliderPercent = 0.5;
+  //TODO:(4.4) Define onPanStart,onPanEnd and onPanUpdate
+//  double startDragY;
+//  double startDragPercent;
+//
+//  void _onPanStart(DragStartDetails details) {
+//      startDragY =details.globalPosition.dy;
+//      startDragPercent  = sliderPercent;
+//  }
+//  void _onPanUpdate(DragUpdateDetails details){
+//    final dragDistance = startDragY - details.globalPosition.dy;
+//    final height = context.size.height;
+//    final dragPercent = dragDistance / height;
+//
+//    sliderPercent = startDragPercent + dragPercent;
+//    setState((){});
+//  }
+//  void _onPanEnd(DragEndDetails details){
+//    startDragY = null;
+//    startDragPercent = null;
+//    setState((){});
+//  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        SliderMarks(
-          markCount: widget.markCount,
-          color: widget.positiveColor,
-          paddingTop: paddingTop,
-          paddingBottom: paddingBottom,
-        ),
-        ClipPath(
-          clipper: SliderClipper(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                color: Theme.of(context).primaryColor,
-              ),
-              SliderMarks(
-                markCount: widget.markCount,
-                color: widget.negativeColor,
-                paddingTop: paddingTop,
-                paddingBottom: paddingBottom,
-              ),
-            ],
+    return GestureDetector(
+//      onPanStart: _onPanStart,
+//      onPanUpdate: _onPanUpdate,
+//      onPanEnd: _onPanEnd,
+      child: Stack(
+        children: <Widget>[
+          SliderMarks(
+            markCount: widget.markCount,
+            color: widget.positiveColor,
+            paddingTop: paddingTop,
+            paddingBottom: paddingBottom,
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: paddingBottom,
-            bottom: paddingBottom,
+          ClipPath(
+            clipper: SliderClipper(
+//              paddingBottom: paddingBottom,
+//              paddingTop: paddingTop,
+//              sliderPercent: sliderPercent,
+            ),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  color: Theme.of(context).primaryColor,
+                ),
+                SliderMarks(
+                  markCount: widget.markCount,
+                  color: widget.negativeColor,
+                  paddingTop: paddingTop,
+                  paddingBottom: paddingBottom,
+                ),
+              ],
+            ),
           ),
-          //TODO:(3.2) calculate top alignment for the text
-          //TODO(3.4) replace texts for points
-//          child: LayoutBuilder(
-//            builder: (BuildContext context, BoxConstraints constraints) {
-//              final height = constraints.maxHeight;
-//              final top = height * (1.0 - slidePercent);
-//
-//              return Stack(
-//                children: <Widget>[
-//                  Positioned(
-//                    left: 35.0,
-//                    top: top - 50.0,
-//                    child: FractionalTranslation(
-//                      translation: Offset(0.0, -1.0),
-//                      child: Text('TESTING'),
-////                      child: Points(
-////                        color: Theme.of(context).primaryColor,
-////                        isAboveSlider: true,
-////                        isPointsYouNeed: false,
-////                        points: 100 - (slidePercent * 100).floor(),
-////                      ),
-//                    ),
-//                  ),
-//                  Positioned(
-//                    left: 35.0,
-//                    top: top + 50.0,
-//                    child: Text('TESTING'),
-////                    child: Points(
-////                      color: Theme.of(context).scaffoldBackgroundColor,
-////                      isAboveSlider: false,
-////                      isPointsYouNeed: true,
-////                      points: (slidePercent * 100).floor(),
-////                    ),
-//                  ),
-//                ],
-//              );
-//            },
-//          ),
-        ),
-      ],
+          Padding(
+            padding: EdgeInsets.only(
+              top: paddingBottom,
+              bottom: paddingBottom,
+            ),
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                final height = constraints.maxHeight;
+                final top = height * (1.0 - sliderPercent);
+
+                return Stack(
+                  children: <Widget>[
+                    Positioned(
+                      left: 35.0,
+                      top: top - 50.0,
+                      child: FractionalTranslation(
+                        translation: Offset(0.0, -1.0),
+                        child: Points(
+                          color: Theme.of(context).primaryColor,
+                          isAboveSlider: true,
+                          isPointsYouNeed: false,
+                          points: 100 - (sliderPercent * 100).floor(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 35.0,
+                      top: top + 50.0,
+                      child: Points(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        isAboveSlider: false,
+                        isPointsYouNeed: true,
+                        points: (sliderPercent * 100).floor(),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -186,9 +213,27 @@ class SlideMarksPainter extends CustomPainter {
   }
 }
 
+//TODO:(4.1) Lets Parameterize the CLipper to take in the slide %
+
 class SliderClipper extends CustomClipper<Path> {
+//  final double sliderPercent;
+//  final double paddingTop;
+//  final double paddingBottom;
+//
+//  SliderClipper({
+//    this.sliderPercent,
+//    this.paddingTop,
+//    this.paddingBottom,
+//  });
+
+  //TODO:(4.2) Calculate the top, bottom and height
+
   @override
   Path getClip(Size size) {
+//    final top = paddingTop;
+//    final bottom = size.height;
+//    final height = (bottom - paddingBottom) - top;
+
     Path path = Path();
 
     path.addRect(
@@ -198,6 +243,12 @@ class SliderClipper extends CustomClipper<Path> {
         size.width,
         size.height / 2,
       ),
+//      Rect.fromLTRB(
+//        0.0,
+//        top + ((1.0 - sliderPercent) * height),
+//        size.width,
+//        bottom,
+//      ),
     );
 
     return path;
